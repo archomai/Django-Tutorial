@@ -1,7 +1,7 @@
 from unittest import loader
 
 from django.http import HttpResponse, Http404
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from polls.models import Question, Choice
 
@@ -38,13 +38,15 @@ def detail(request, question_id):
     :param question_id:
     :return:
     """
-    try:
-        # question을 get()시도
-        question = Question.objects.get(pk=question_id)
-    except Question.DoesNotExist:
-        # DoesNotExist예외가 발생 시
-        #
-        raise Http404('Question does not exist')
+    # try:
+    #     # question을 get()시도
+    #     question = Question.objects.get(pk=question_id)
+    # except Question.DoesNotExist:
+    #     # DoesNotExist예외가 발생 시
+    #     # Http404 페이지가 보임
+    #     raise Http404('Question does not exist')
+
+    question = get_object_or_404(Question, pk=question_id)
     context = {
         'question': question,
     }
